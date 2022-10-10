@@ -109,6 +109,19 @@ function AdvDupe2.LoadDupe(ply,success,dupe,info,moreinfo)
 	AdvDupe2.ResetOffsets(ply, true)
 end
 
+AdvDupe2.Backup = AdvDupe2.Backup or {} 
+AdvDupe2.Backup.LoadDupe = AdvDupe2.Backup.LoadDupe or AdvDupe2.LoadDupe
+
+function AdvDupe2.LoadDupe(ply, success, dupe, info, moreinfo)
+	for key, ent in pairs(dupe["Entities"]) do
+		if ent.ModelScale then
+			ent.ModelScale = nil
+		end
+	end
+
+	AdvDupe2.Backup.LoadDupe(ply, success, dupe, info, moreinfo)
+end
+
 local function AdvDupe2_ReceiveFile(len, ply)
 	if not IsValid(ply) then return end
 	if not ply.AdvDupe2 then ply.AdvDupe2 = {} end
